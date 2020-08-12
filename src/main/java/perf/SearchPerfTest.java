@@ -40,14 +40,16 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.apache.lucene.analysis.shingle.ShingleAnalyzerWrapper;
+import org.apache.lucene.analysis.shingle.ShingleFilter;
 import org.apache.lucene.analysis.standard.ClassicAnalyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.codecs.Codec;
 import org.apache.lucene.codecs.PostingsFormat;
-import org.apache.lucene.codecs.lucene84.Lucene84Codec;
+import org.apache.lucene.codecs.lucene86.Lucene86Codec;
 import org.apache.lucene.facet.FacetsConfig;
 import org.apache.lucene.facet.taxonomy.TaxonomyReader;
 import org.apache.lucene.facet.taxonomy.directory.DirectoryTaxonomyReader;
@@ -67,6 +69,7 @@ import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.similarities.Similarity;
+import org.apache.lucene.search.spell.DirectSpellChecker;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.NRTCachingDirectory;
 import org.apache.lucene.util.Constants;
@@ -74,6 +77,7 @@ import org.apache.lucene.util.InfoStream;
 import org.apache.lucene.util.NamedThreadFactory;
 import org.apache.lucene.util.PrintStreamInfoStream;
 import org.apache.lucene.util.RamUsageEstimator;
+import org.apache.lucene.util.Version;
 
 import perf.IndexThreads.Mode;
 
@@ -310,7 +314,7 @@ public class SearchPerfTest {
       //((TieredMergePolicy) iwc.getMergePolicy()).setReclaimDeletesWeight(3.0);
       //((TieredMergePolicy) iwc.getMergePolicy()).setMaxMergeAtOnce(4);
 
-      final Codec codec = new Lucene84Codec() {
+      final Codec codec = new Lucene86Codec() {
           @Override
           public PostingsFormat getPostingsFormatForField(String field) {
             return PostingsFormat.forName(field.equals("id") ?

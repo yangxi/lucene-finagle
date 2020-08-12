@@ -12,51 +12,99 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
+    
+      <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.1</version>
+                 <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <id>SearchTest</id>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>perf.SearchPerfTest</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                    <!-- <execution>
+                        <phase>package</phase>
+                        <id>NRT-Test</id>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>perf.NRTPerfTest</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution> -->
+                </executions> 
+            </plugin>
+        </plugins>
+    </build>
 
     <!-- START - Lucene Dependencies -->
     <dependencies>
+        <dependency>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.2.0</version>
+        <type>maven-plugin</type>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-core -->
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-core</artifactId>
-            <version>8.5.1</version>
+            <version>8.6.0</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-core -->
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-suggest</artifactId>
-            <version>8.5.1</version>
+            <version>8.6.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-suggest</artifactId>
-            <version>8.5.1</version>
+            <version>8.6.0</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-analyzers-common -->
 <dependency>
     <groupId>org.apache.lucene</groupId>
     <artifactId>lucene-analyzers-common</artifactId>
-    <version>8.5.1</version>
+    <version>8.6.0</version>
 </dependency>
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-grouping</artifactId>
-            <version>8.5.1</version>
+            <version>8.6.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-highlighter</artifactId>
-            <version>8.5.1</version>
+            <version>8.6.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-facet</artifactId>
-            <version>8.5.1</version>
+            <version>8.6.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-queryparser</artifactId>
-            <version>8.5.1</version>
+            <version>8.6.0</version>
         </dependency>
     </dependencies>
     <!-- END - Lucene Dependencies -->

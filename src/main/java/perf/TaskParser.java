@@ -43,13 +43,13 @@ import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.perf.RandomQuery;
 
 class TaskParser {
 
   private final QueryParser queryParser;
   private final String fieldName;
   private final Sort titleDVSort;
+  private final Sort titleBDVSort;
   private final Sort monthDVSort; // Month of the "last modified timestamp", SORTED doc values
   private final Sort dayOfYearDVSort; // Day of the year of the "last modified timestamp", NUMERIC doc values
   private final Sort lastModNDVSort;
@@ -71,6 +71,7 @@ class TaskParser {
     this.doStoredLoads = doStoredLoads;
     this.state = state;
     titleDVSort = new Sort(new SortField("titleDV", SortField.Type.STRING));
+    titleBDVSort = new Sort(new SortField("titleBDV", SortField.Type.STRING_VAL));
     monthDVSort = new Sort(new SortField("monthSortedDV", SortField.Type.STRING));
     dayOfYearDVSort = new Sort(new SortField("dayOfYearNumericDV", SortField.Type.INT));
     lastModNDVSort = new Sort(new SortField("lastModNDV", SortField.Type.LONG));
@@ -282,13 +283,17 @@ class TaskParser {
         sort = titleDVSort;
         query = queryParser.parse(text.substring(13, text.length()));
         group = null;
+      } else if (text.startsWith("titlebdvsort//")) {
+        sort = titleBDVSort;
+        query = queryParser.parse(text.substring(14, text.length()));
+        group = null;
       } else if (text.startsWith("monthdvsort//")) {
         sort = monthDVSort;
         query = queryParser.parse(text.substring(13, text.length()));
         group = null;
       } else if (text.startsWith("dayofyeardvsort//")) {
         sort = dayOfYearDVSort;
-        query = queryParser.parse(text.substring(13, text.length()));
+        query = queryParser.parse(text.substring(17, text.length()));
         group = null;
       } else if (text.startsWith("lastmodndvsort//")) {
         sort = lastModNDVSort;
